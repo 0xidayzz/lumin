@@ -3,9 +3,6 @@ uvicorn
 sqlalchemy
 psycopg2-binary
 pgvector
-pydantic
-pydantic-settings
 httpx
 python-dotenv
 apscheduler
-anthropic
