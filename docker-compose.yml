@@ -1,0 +1,16 @@
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: lumin-db
+    restart: always
+    environment:
+      POSTGRES_DB: lumin
+      POSTGRES_USER: lumin
+      POSTGRES_PASSWORD: lumin_local
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
