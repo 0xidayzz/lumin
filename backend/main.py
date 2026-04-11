@@ -13,394 +13,204 @@ app.add_middleware(CORSMiddleware,
     allow_methods=["*"], allow_headers=["*"])
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Photos ministres : portraits Wikimedia Commons (libres de droits)
+# LOGOS — générés en SVG côté serveur (aucune dépendance externe)
+# Chaque logo est un SVG stylisé avec les vraies couleurs et sigle du parti
 # ─────────────────────────────────────────────────────────────────────────────
-PHOTOS_MINISTRES = {
-    "macron":        "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Emmanuel_Macron_in_2019.jpg/200px-Emmanuel_Macron_in_2019.jpg",
-    "lecornu":       "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/S%C3%A9bastien_Lecornu_en_2022.jpg/200px-S%C3%A9bastien_Lecornu_en_2022.jpg",
-    "nunez":         "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Laurent_Nu%C3%B1ez_-_2019_%28cropped%29.jpg/200px-Laurent_Nu%C3%B1ez_-_2019_%28cropped%29.jpg",
-    "vautrin":       "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Catherine_Vautrin_%28cropped%29.jpg/200px-Catherine_Vautrin_%28cropped%29.jpg",
-    "farandou":      "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Jean-Pierre_Farandou_2019.jpg/200px-Jean-Pierre_Farandou_2019.jpg",
-    "darmanin":      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/G%C3%A9rald_Darmanin_2017_01_%28cropped%29.jpg/200px-G%C3%A9rald_Darmanin_2017_01_%28cropped%29.jpg",
-    "lescure":       "https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Roland_Lescure_2022_%28cropped%29.jpg/200px-Roland_Lescure_2022_%28cropped%29.jpg",
-    "genevard":      "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Annie_G%C3%A9nevard%2C_d%C3%A9put%C3%A9e.jpg/200px-Annie_G%C3%A9nevard%2C_d%C3%A9put%C3%A9e.jpg",
-    "barrot":        "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Jean-No%C3%ABl_Barrot_%28cropped%29.jpg/200px-Jean-No%C3%ABl_Barrot_%28cropped%29.jpg",
-    "rist":          "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/St%C3%A9phanie_Rist_%28cropped%29.jpg/200px-St%C3%A9phanie_Rist_%28cropped%29.jpg",
-    "geffray":       "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Edouard_Geffray_2022.jpg/200px-Edouard_Geffray_2022.jpg",
-    "amiel":         "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/David_Amiel_%28cropped%29.jpg/200px-David_Amiel_%28cropped%29.jpg",
-    "tabarot":       "https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Philippe_Tabarot_2022.jpg/200px-Philippe_Tabarot_2022.jpg",
-    "ferrari":       "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Marina_Ferrari_%28cropped%29.jpg/200px-Marina_Ferrari_%28cropped%29.jpg",
-    "berge":         "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Aurore_Berg%C3%A9_%28cropped%29.jpg/200px-Aurore_Berg%C3%A9_%28cropped%29.jpg",
-    "bregeon":       "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Maud_Bregeon_2022.jpg/200px-Maud_Bregeon_2022.jpg",
-    "baptiste":      "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Philippe_Baptiste_2021.jpg/200px-Philippe_Baptiste_2021.jpg",
-    "papin":         "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Serge_Papin_2011.jpg/200px-Serge_Papin_2011.jpg",
-    "gatel":         "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Fran%C3%A7oise_Gatel.jpg/200px-Fran%C3%A7oise_Gatel.jpg",
-    "pegard":        "https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Catherine_P%C3%A9gard_%28Versailles%29.jpg/200px-Catherine_P%C3%A9gard_%28Versailles%29.jpg",
-    "barbut":        "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Monique_Barbut_2013.jpg/200px-Monique_Barbut_2013.jpg",
-    "haddad":        "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Benjamin_Haddad_%28cropped%29.jpg/200px-Benjamin_Haddad_%28cropped%29.jpg",
-    "jeanbrun":      "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Vincent_Jeanbrun_%28cropped%29.jpg/200px-Vincent_Jeanbrun_%28cropped%29.jpg",
-}
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Logos partis : Wikipedia/Wikimedia Commons (libres de droits)
-# ─────────────────────────────────────────────────────────────────────────────
-LOGOS_PARTIS = {
-    # Groupe Ensemble pour la République (anciennement Renaissance à l'AN)
-    "ENS":   "https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Logo_Renaissance_%28parti_politique_fran%C3%A7ais%29.svg/200px-Logo_Renaissance_%28parti_politique_fran%C3%A7ais%29.svg.png",
-    "REN":   "https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Logo_Renaissance_%28parti_politique_fran%C3%A7ais%29.svg/200px-Logo_Renaissance_%28parti_politique_fran%C3%A7ais%29.svg.png",
-    "RN":    "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Rassemblement_National_2018.svg/200px-Rassemblement_National_2018.svg.png",
-    "LR":    "https://upload.wikimedia.org/wikipedia/fr/thumb/a/a9/Logo_Les_R%C3%A9publicains.svg/200px-Logo_Les_R%C3%A9publicains.svg.png",
-    "HOR":   "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Horizons_%28parti_politique%29_logo.svg/200px-Horizons_%28parti_politique%29_logo.svg.png",
-    "MODEM": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Logo_MoDem_2017.svg/200px-Logo_MoDem_2017.svg.png",
-    "SOC":   "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Parti_socialiste_%28France%29_logo_2023.svg/200px-Parti_socialiste_%28France%29_logo_2023.svg.png",
-    "ECO":   "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Logo_Les_%C3%89cologistes.svg/200px-Logo_Les_%C3%89cologistes.svg.png",
-    "LFI":   "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/La_France_insoumise_%282022%29_Logo.svg/200px-La_France_insoumise_%282022%29_Logo.svg.png",
-    "GDR":   "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Parti_communiste_fran%C3%A7ais_%28logo%2C_2018%29.svg/200px-Parti_communiste_fran%C3%A7ais_%28logo%2C_2018%29.svg.png",
-    "LIOT":  "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Logo_LIOT.svg/200px-Logo_LIOT.svg.png",
-    "NFP":   "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Logo_Nouveau_Front_Populaire.svg/200px-Logo_Nouveau_Front_Populaire.svg.png",
-    # Droite républicaine (nouveau nom du groupe LR à l'AN depuis 2024)
-    "DR":    "https://upload.wikimedia.org/wikipedia/fr/thumb/a/a9/Logo_Les_R%C3%A9publicains.svg/200px-Logo_Les_R%C3%A9publicains.svg.png",
-}
+def make_logo_svg(sigle: str, nom: str, couleur: str, couleur2: str = None) -> str:
+    """Génère un logo SVG propre pour un parti politique."""
+    c2 = couleur2 or couleur
+    lines = nom.split(" ")
+    # On prend max 2 lignes pour l'affichage
+    line1 = lines[0] if lines else sigle
+    line2 = " ".join(lines[1:]) if len(lines) > 1 else ""
 
-COULEURS = {
-    "RN":"#003189","NFP":"#8B0000","ENS":"#FF6D00","REN":"#FF6D00","MODEM":"#FF8F00",
-    "HOR":"#1565C0","LR":"#0D47A1","DR":"#0D47A1","LFI":"#B71C1C","SOC":"#E91E63",
-    "ECO":"#2E7D32","GDR":"#C62828","LIOT":"#6A1B9A","NI":"#607D8B",
-}
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="{couleur}"/>
+      <stop offset="100%" stop-color="{c2}"/>
+    </linearGradient>
+    <clipPath id="clip"><rect rx="16" width="120" height="120"/></clipPath>
+  </defs>
+  <rect width="120" height="120" rx="16" fill="url(#g)"/>
+  <rect width="120" height="120" rx="16" fill="white" fill-opacity="0.07"/>
+  <text x="60" y="{48 if line2 else 68}"
+    font-family="system-ui,-apple-system,sans-serif"
+    font-size="{28 if len(sigle) <= 3 else 22}"
+    font-weight="800"
+    fill="white"
+    text-anchor="middle"
+    dominant-baseline="central"
+    letter-spacing="-0.5">{sigle}</text>
+  {f'<text x="60" y="82" font-family="system-ui,-apple-system,sans-serif" font-size="9" font-weight="500" fill="white" fill-opacity="0.85" text-anchor="middle">{nom[:20]}</text>' if line2 else ''}
+</svg>"""
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Données partis (groupes parlementaires AN, XVIIe législature)
-# ─────────────────────────────────────────────────────────────────────────────
-PARTIS_DATA = {
-    "RN": {
-        "nom": "Rassemblement National", "nom_court": "RN", "couleur": "#003189",
-        "description": "Premier groupe de l'Assemblée nationale avec 143 sièges, le RN est le parti de Marine Le Pen et Jordan Bardella. Fondé en 1972 sous le nom de Front National, il défend la priorité nationale, le contrôle de l'immigration et un euroscepticisme affirmé. Marine Le Pen a été condamnée en appel pour détournement de fonds européens, son inéligibilité de 5 ans confirmée début 2025.",
-        "valeurs": ["Priorité nationale", "Souveraineté", "Sécurité", "Identité française", "Protection sociale"],
-        "fondation": 1972, "orientation": "Droite nationaliste", "position_hemicycle": 1,
-        "president": "Marine Le Pen / Jordan Bardella",
-        "propositions_lois": [
-            "Référendum constitutionnel sur l'immigration",
-            "Suppression du droit du sol automatique",
-            "Retraite à 60 ans pour les carrières longues",
-            "Préférence nationale pour les aides sociales et l'emploi",
-            "Sortie du commandement intégré de l'OTAN",
-            "Rétablissement des frontières nationales",
-        ],
-        "actualites": [
-            "Inéligibilité de 5 ans de Marine Le Pen confirmée en appel (mars 2025)",
-            "Jordan Bardella prend la tête du groupe RN à l'Assemblée",
-            "Le RN vote contre le gouvernement Lecornu mais évite la censure",
-        ],
-    },
-    "ENS": {
-        "nom": "Ensemble pour la République", "nom_court": "ENS", "couleur": "#FF6D00",
-        "description": "Groupe parlementaire issu de Renaissance (ex-LREM), parti d'Emmanuel Macron fondé en 2016. Gabriel Attal en est le président à l'Assemblée. Le groupe soutient le gouvernement Lecornu sans y participer directement depuis le remaniement de février 2026.",
-        "valeurs": ["Progrès", "Europe", "Réforme de l'État", "Innovation", "Économie de marché"],
-        "fondation": 2016, "orientation": "Centre", "position_hemicycle": 4,
-        "president": "Gabriel Attal (groupe AN)",
-        "propositions_lois": [
-            "Loi de finances 2026 — réduction du déficit public",
-            "Réforme de l'assurance-chômage",
-            "Loi industrie verte — décarbonation de l'économie",
-            "France 2030 — investissements stratégiques",
-            "Réforme du lycée professionnel",
-        ],
-        "actualites": [
-            "Gabriel Attal appelle Macron à 'partager le pouvoir' (fin 2025)",
-            "Ensemble soutient le gouvernement Lecornu tout en marquant son indépendance",
-            "Le groupe perd des membres au profit d'Horizons",
-        ],
-    },
-    "NFP": {
-        "nom": "Nouveau Front Populaire", "nom_court": "NFP", "couleur": "#8B0000",
-        "description": "Coalition de gauche formée pour les législatives de juin 2024, rassemblant LFI, PS, Les Écologistes et le PCF. Arrivée en tête en nombre de voix, elle n'a pas obtenu de majorité absolue. Le NFP est traversé de tensions internes entre LFI et les partis réformistes.",
-        "valeurs": ["Justice sociale", "Planification écologique", "Abrogation réforme des retraites", "Services publics"],
-        "fondation": 2024, "orientation": "Gauche", "position_hemicycle": 8,
-        "president": "Coalition LFI / PS / Écolos / PCF",
-        "propositions_lois": [
-            "Abrogation de la réforme des retraites",
-            "Blocage des prix des produits de première nécessité",
-            "Taxation des superprofits et des milliardaires",
-            "Plan de bifurcation écologique (100 Mds€)",
-        ],
-        "actualites": [
-            "Le NFP a renversé Bayrou par un vote de confiance défavorable (8 sept. 2025)",
-            "Tensions LFI/PS sur la stratégie face au gouvernement Lecornu",
-            "Le PS et les Écolos refusent de voter une motion de censure contre Lecornu",
-        ],
-    },
-    "DR": {
-        "nom": "Droite Républicaine", "nom_court": "DR", "couleur": "#0D47A1",
-        "description": "Le groupe Droite Républicaine (ex-LR) à l'Assemblée nationale est présidé par Laurent Wauquiez. Après la scission, plusieurs membres LR ont rejoint le gouvernement Lecornu malgré l'opposition du parti, entraînant leur suspension. Le groupe maintient une ligne de droite classique.",
-        "valeurs": ["Liberté", "Autorité", "Sécurité", "Économie de marché", "Europe des nations"],
-        "fondation": 2015, "orientation": "Droite", "position_hemicycle": 2,
-        "president": "Laurent Wauquiez",
-        "propositions_lois": [
-            "Immigration — quotas annuels votés par le Parlement",
-            "Justice — peines planchers généralisées",
-            "Relance du nucléaire — 6 nouveaux EPR",
-            "Équilibre budgétaire accéléré",
-        ],
-        "actualites": [
-            "Scission : 6 ministres LR (Genevard, Tabarot…) suspendus du parti",
-            "Wauquiez maintient LR dans l'opposition au gouvernement Lecornu",
-            "LR rebaptisé 'Droite Républicaine' à l'Assemblée",
-        ],
-    },
-    "MODEM": {
-        "nom": "Mouvement Démocrate", "nom_court": "MoDem", "couleur": "#FF8F00",
-        "description": "Parti centriste fondé par François Bayrou en 2007. Bayrou a été Premier ministre de décembre 2024 à septembre 2025 avant d'être renversé par un vote de confiance. Le MoDem reste un allié clé de la majorité présidentielle.",
-        "valeurs": ["Humanisme", "Europe fédérale", "Démocratie", "Éducation", "Social-libéralisme"],
-        "fondation": 2007, "orientation": "Centre", "position_hemicycle": 5,
-        "president": "François Bayrou",
-        "propositions_lois": [
-            "Réforme du scrutin proportionnel",
-            "Loi de programmation budgétaire pluriannuelle",
-            "Autonomie renforcée des établissements scolaires",
-        ],
-        "actualites": [
-            "Bayrou renversé par vote de confiance le 8 septembre 2025 (364 contre)",
-            "Jean-Noël Barrot (MoDem) reconduit aux Affaires étrangères sous Lecornu",
-            "Le MoDem pèse dans le soutien au gouvernement Lecornu",
-        ],
-    },
-    "HOR": {
-        "nom": "Horizons", "nom_court": "HOR", "couleur": "#1565C0",
-        "description": "Parti centriste-libéral fondé par Édouard Philippe en 2021. Philippe, ancien Premier ministre, est officiellement candidat à la présidentielle 2027. Il a appelé Macron à démissionner après le vote du budget 2026.",
-        "valeurs": ["Pragmatisme", "Territoires", "Décentralisation", "Réforme"],
-        "fondation": 2021, "orientation": "Centre droit", "position_hemicycle": 3,
-        "president": "Édouard Philippe",
-        "propositions_lois": [
-            "Acte III de la décentralisation",
-            "Simplification administrative pour les collectivités",
-            "Réforme de la fiscalité locale",
-        ],
-        "actualites": [
-            "Édouard Philippe appelle Macron à démissionner après le budget (déc. 2025)",
-            "Philippe officiellement candidat à la présidentielle 2027",
-            "Horizons renforce son implantation aux municipales 2026",
-        ],
-    },
-    "LFI": {
-        "nom": "La France Insoumise", "nom_court": "LFI", "couleur": "#B71C1C",
-        "description": "Mouvement de gauche radicale fondé par Jean-Luc Mélenchon en 2016. Première force du NFP en nombre de députés. Mélenchon a annoncé ne pas être candidat à la présidentielle 2027. Mathilde Panot dirige le groupe à l'Assemblée.",
-        "valeurs": ["VIe République", "Planification écologique", "Justice fiscale", "Paix", "Souveraineté populaire"],
-        "fondation": 2016, "orientation": "Gauche radicale", "position_hemicycle": 9,
-        "president": "Jean-Luc Mélenchon",
-        "propositions_lois": [
-            "VIe République — Assemblée constituante",
-            "Retraite à 60 ans — abrogation immédiate",
-            "Salaire maximum légal (20× le SMIC)",
-            "Sortie du commandement de l'OTAN",
-            "100% énergies renouvelables d'ici 2040",
-        ],
-        "actualites": [
-            "LFI a conduit le NFP à renverser Bayrou (sept. 2025)",
-            "Mélenchon annonce ne pas se présenter à la présidentielle 2027",
-            "Tensions avec le PS sur la stratégie face au gouvernement Lecornu",
-        ],
-    },
-    "SOC": {
-        "nom": "Socialistes et Apparentés", "nom_court": "PS", "couleur": "#E91E63",
-        "description": "Le Parti Socialiste, fondé en 1969, se redresse dans le cadre du NFP. Le PS a refusé de voter la motion de censure contre Lecornu en octobre 2025, obtenant la suspension de la réforme des retraites jusqu'en 2027.",
-        "valeurs": ["Justice sociale", "Solidarité", "Europe sociale", "Laïcité"],
-        "fondation": 1969, "orientation": "Gauche", "position_hemicycle": 7,
-        "president": "Olivier Faure",
-        "propositions_lois": [
-            "Abrogation de la réforme des retraites",
-            "Réforme de la fiscalité successorale",
-            "Loi sur le logement social d'urgence",
-        ],
-        "actualites": [
-            "Le PS obtient la suspension de la réforme des retraites jusqu'en 2027",
-            "Tensions LFI/PS : le PS refuse de voter la motion de censure contre Lecornu",
-            "Résultats positifs aux élections municipales 2026",
-        ],
-    },
-    "ECO": {
-        "nom": "Les Écologistes", "nom_court": "Écolos", "couleur": "#2E7D32",
-        "description": "Les Écologistes (ex-EELV), membres du NFP, défendent la transition écologique. Ils s'opposent à la relance nucléaire du gouvernement Lecornu et à la politique d'expulsions locatives record de 2025.",
-        "valeurs": ["Transition écologique", "Féminisme", "Non-violence", "Droits des minorités"],
-        "fondation": 2010, "orientation": "Gauche écologiste", "position_hemicycle": 6,
-        "president": "Marine Tondelier",
-        "propositions_lois": [
-            "100% renouvelables d'ici 2035 — abandon du nucléaire",
-            "Interdiction des pesticides de synthèse d'ici 2030",
-            "Revenu de base universel (900€/mois)",
-            "Réduction du temps de travail à 32h",
-        ],
-        "actualites": [
-            "Les Écolos s'opposent à la relance nucléaire du gouvernement",
-            "Marine Tondelier, figure montante de la gauche en vue de 2027",
-            "Record d'expulsions locatives 2025 : les Écolos en première ligne",
-        ],
-    },
-    "GDR": {
-        "nom": "Gauche Démocrate et Républicaine", "nom_court": "GDR", "couleur": "#C62828",
-        "description": "Le groupe GDR rassemble les députés communistes et ultramarins de gauche. Membre du NFP, il maintient ses distances avec LFI sur les questions géopolitiques.",
-        "valeurs": ["Services publics", "Paix", "Droits des travailleurs", "Outre-mer"],
-        "fondation": 1920, "orientation": "Gauche", "position_hemicycle": 10,
-        "president": "André Chassaigne",
-        "propositions_lois": [
-            "Nationalisation des autoroutes",
-            "Loi sur la réquisition des logements vides",
-            "Loi cadre sur les droits des Outre-mer",
-        ],
-        "actualites": [
-            "Le PCF marque ses distances avec LFI sur les questions géopolitiques",
-            "Campagne nationale pour la nationalisation des autoroutes",
-            "André Chassaigne reconduit à la tête du groupe GDR",
-        ],
-    },
-    "LIOT": {
-        "nom": "Libertés, Indépendants, Outre-mer et Territoires", "nom_court": "LIOT", "couleur": "#6A1B9A",
-        "description": "Groupe transpartisan attaché à l'indépendance et aux territoires. LIOT a joué un rôle clé en s'abstenant lors de la motion de censure contre Lecornu en octobre 2025, permettant au gouvernement de survivre.",
-        "valeurs": ["Indépendance", "Territoires", "Outre-mer", "Pragmatisme"],
-        "fondation": 2022, "orientation": "Centre / Divers", "position_hemicycle": 5,
-        "president": "Bertrand Pancher",
-        "propositions_lois": [
-            "Autonomie renforcée des collectivités d'Outre-mer",
-            "Réforme du financement des communes rurales",
-            "Loi contre les déserts médicaux",
-        ],
-        "actualites": [
-            "LIOT s'abstient sur la motion de censure contre Lecornu (oct. 2025)",
-            "Le groupe maintient sa ligne d'indépendance — vote au cas par cas",
-            "Mobilisation sur la crise budgétaire des Outre-mer",
-        ],
-    },
-}
-
-# ─────────────────────────────────────────────────────────────────────────────
-# Gouvernement Lecornu II — composition au 26 février 2026 (remaniement)
-# Source : info.gouv.fr / vie-publique.fr / Journal officiel
-# ─────────────────────────────────────────────────────────────────────────────
-GOUVERNEMENT = [
-    # ── PRÉSIDENT ──
-    {"nom":"Macron",    "prenom":"Emmanuel",  "role":"Président de la République",
-     "parti":"ENS",  "rang":0, "photo_key":"macron",
-     "description":"Élu en 2017, réélu en 2022. Fondateur de Renaissance (ex-LREM). Président de la République en exercice depuis mai 2017."},
-    # ── PREMIER MINISTRE ──
-    {"nom":"Lecornu",   "prenom":"Sébastien", "role":"Premier ministre — chargé de la Planification écologique",
-     "parti":"ENS",  "rang":1, "photo_key":"lecornu",
-     "description":"Nommé Premier ministre le 9 septembre 2025 après la démission de Bayrou. Ancien ministre des Armées (2022-2025). Gouvernement remanié le 26 février 2026."},
-    # ── MINISTRES DE PLEIN EXERCICE ──
-    {"nom":"Nuñez",     "prenom":"Laurent",   "role":"Ministre de l'Intérieur",
-     "parti":"ENS",  "rang":2, "photo_key":"nunez",
-     "description":"Ancien préfet de police de Paris. Reconduit à l'Intérieur depuis le gouvernement Lecornu I."},
-    {"nom":"Vautrin",   "prenom":"Catherine", "role":"Ministre des Armées et des Anciens combattants",
-     "parti":"HOR",  "rang":3, "photo_key":"vautrin",
-     "description":"Ancienne présidente de la région Grand Est. Nommée aux Armées en remplacement de Lecornu, devenu Premier ministre."},
-    {"nom":"Farandou",  "prenom":"Jean-Pierre","role":"Ministre du Travail et des Solidarités",
-     "parti":"ENS",  "rang":4, "photo_key":"farandou",
-     "description":"Ancien PDG de la SNCF (2019-2024). Première entrée en politique."},
-    {"nom":"Barbut",    "prenom":"Monique",   "role":"Ministre de la Transition écologique et de la Biodiversité",
-     "parti":"ENS",  "rang":5, "photo_key":"barbut",
-     "description":"Ancienne directrice de la Convention des Nations Unies sur la lutte contre la désertification."},
-    {"nom":"Darmanin",  "prenom":"Gérald",    "role":"Garde des Sceaux, ministre de la Justice",
-     "parti":"NI",   "rang":6, "photo_key":"darmanin",
-     "description":"A quitté Renaissance en octobre 2025 pour être au gouvernement. Ancien ministre de l'Intérieur (2020-2024)."},
-    {"nom":"Lescure",   "prenom":"Roland",    "role":"Ministre de l'Économie, des Finances et de la Souveraineté industrielle",
-     "parti":"ENS",  "rang":7, "photo_key":"lescure",
-     "description":"Ancien député Renaissance du Canada. Remplace Éric Lombard à l'Économie."},
-    {"nom":"Papin",     "prenom":"Serge",     "role":"Ministre des PME, Commerce, Artisanat, Tourisme et Pouvoir d'achat",
-     "parti":"NI",   "rang":8, "photo_key":"papin",
-     "description":"Ancien PDG de Système U (2005-2017). Première nomination au gouvernement."},
-    {"nom":"Genevard",  "prenom":"Annie",     "role":"Ministre de l'Agriculture et de la Souveraineté alimentaire",
-     "parti":"LR",   "rang":9, "photo_key":"genevard",
-     "description":"Ancienne présidente du groupe LR à l'AN. Suspendue de LR pour avoir rejoint le gouvernement."},
-    {"nom":"Geffray",   "prenom":"Édouard",   "role":"Ministre de l'Éducation nationale",
-     "parti":"NI",   "rang":10,"photo_key":"geffray",
-     "description":"Ancien directeur général de l'enseignement scolaire. Première nomination au gouvernement."},
-    {"nom":"Barrot",    "prenom":"Jean-Noël", "role":"Ministre de l'Europe et des Affaires étrangères",
-     "parti":"MODEM","rang":11,"photo_key":"barrot",
-     "description":"Reconduit aux Affaires étrangères depuis le gouvernement Bayrou. Fils du commissaire européen Jacques Barrot."},
-    {"nom":"Rist",      "prenom":"Stéphanie", "role":"Ministre de la Santé et des Familles",
-     "parti":"ENS",  "rang":12,"photo_key":"rist",
-     "description":"Médecin de formation, ancienne rapporteure générale du budget de la Sécu. Reconduite à la Santé."},
-    {"nom":"Pégard",    "prenom":"Catherine", "role":"Ministre de la Culture",
-     "parti":"NI",   "rang":13,"photo_key":"pegard",
-     "description":"Ancienne présidente du château de Versailles et conseillère culture d'Emmanuel Macron. Remplace Rachida Dati (démissionnée le 25 fév. 2026 pour les municipales à Paris)."},
-    {"nom":"Gatel",     "prenom":"Françoise", "role":"Ministre de l'Aménagement du territoire et de la Décentralisation",
-     "parti":"NI",   "rang":14,"photo_key":"gatel",
-     "description":"Ancienne sénatrice UDI d'Ille-et-Vilaine. Assure la représentation de l'UDI au gouvernement."},
-    {"nom":"Amiel",     "prenom":"David",     "role":"Ministre de l'Action et des Comptes publics",
-     "parti":"ENS",  "rang":15,"photo_key":"amiel",
-     "description":"Fidèle historique de Macron. Promu du rang de délégué à ministre de plein exercice le 26 fév. 2026, remplaçant Montchalin partie à la Cour des comptes."},
-    {"nom":"Baptiste",  "prenom":"Philippe",  "role":"Ministre de l'Enseignement supérieur, Recherche et Espace",
-     "parti":"NI",   "rang":16,"photo_key":"baptiste",
-     "description":"Ancien directeur général du CNRS. Reconduit à l'Enseignement supérieur."},
-    {"nom":"Ferrari",   "prenom":"Marina",   "role":"Ministre des Sports, Jeunesse et Vie associative",
-     "parti":"ENS",  "rang":17,"photo_key":"ferrari",
-     "description":"Ancienne députée ENS de Savoie. Reconduite aux Sports."},
-    {"nom":"Tabarot",   "prenom":"Philippe",  "role":"Ministre des Transports",
-     "parti":"LR",   "rang":18,"photo_key":"tabarot",
-     "description":"Ancien sénateur LR des Alpes-Maritimes. Suspendu de LR pour avoir rejoint le gouvernement."},
-    {"nom":"Jeanbrun",  "prenom":"Vincent",   "role":"Ministre de la Ville et du Logement",
-     "parti":"LR",   "rang":19,"photo_key":"jeanbrun",
-     "description":"Maire de L'Haÿ-les-Roses. Suspendu de LR pour avoir rejoint le gouvernement."},
-    # ── MINISTRES DÉLÉGUÉS CLÉS ──
-    {"nom":"Bergé",     "prenom":"Aurore",    "role":"Ministre déléguée — Égalité femmes-hommes",
-     "parti":"ENS",  "rang":20,"photo_key":"berge",
-     "description":"Ancienne présidente du groupe Renaissance à l'AN."},
-    {"nom":"Bregeon",   "prenom":"Maud",      "role":"Porte-parole du Gouvernement — Énergie",
-     "parti":"ENS",  "rang":21,"photo_key":"bregeon",
-     "description":"Porte-parole du gouvernement. Également chargée de l'Énergie auprès du ministre de l'Économie."},
-    {"nom":"Haddad",    "prenom":"Benjamin",  "role":"Ministre délégué — Europe",
-     "parti":"ENS",  "rang":22,"photo_key":"haddad",
-     "description":"Ancien directeur de l'Institut Hudson à Washington. Chargé de l'Europe auprès de Barrot."},
-]
-
-# ─────────────────────────────────────────────────────────────────────────────
-# Proxies
-# ─────────────────────────────────────────────────────────────────────────────
-WP_HEADERS = {
-    "User-Agent": "LuminBot/1.0 (https://github.com/lumin; contact@lumin.fr) Python/httpx",
-    "Accept": "image/webp,image/png,image/*,*/*",
+LOGOS_SVG: dict[str, tuple[str, str, str, str | None]] = {
+    # (sigle, nom_court, couleur_principale, couleur_secondaire)
+    "RN":    ("RN",    "Rassemblement National",   "#1A3C8C", "#0D2461"),
+    "ENS":   ("ENS",   "Ensemble",                  "#E85D00", "#C24500"),
+    "REN":   ("REN",   "Renaissance",               "#E85D00", "#C24500"),
+    "NFP":   ("NFP",   "Nouveau Front Pop.",         "#8B0000", "#5C0000"),
+    "DR":    ("DR",    "Droite Républicaine",        "#0D3B8C", "#071F4A"),
+    "LR":    ("LR",    "Les Républicains",           "#0D3B8C", "#071F4A"),
+    "MODEM": ("MoDem", "Mouvement Démocrate",        "#E07B00", "#B85F00"),
+    "HOR":   ("HOR",   "Horizons",                  "#1565C0", "#0D47A1"),
+    "SOC":   ("PS",    "Parti Socialiste",           "#C2185B", "#880E4F"),
+    "ECO":   ("ÉCOS",  "Les Écologistes",            "#2E7D32", "#1B5E20"),
+    "LFI":   ("LFI",   "France Insoumise",           "#B71C1C", "#7F0000"),
+    "GDR":   ("GDR",   "Gauche Démocrate",           "#C62828", "#8B0000"),
+    "LIOT":  ("LIOT",  "Libertés & Territoires",    "#6A1B9A", "#4A148C"),
+    "NI":    ("NI",    "Non-Inscrits",               "#546E7A", "#37474F"),
 }
 
 @app.get("/proxy/logo/{parti_id}")
 async def proxy_logo(parti_id: str):
-    url = LOGOS_PARTIS.get(parti_id.upper())
-    if not url:
-        return JSONResponse(status_code=404, content={"detail": "Logo non disponible"})
+    """Retourne un logo SVG généré côté serveur — aucune dépendance externe."""
+    code = parti_id.upper()
+    if code not in LOGOS_SVG:
+        return JSONResponse(status_code=404, content={"detail": "Parti inconnu"})
+    sigle, nom, c1, c2 = LOGOS_SVG[code]
+    svg = make_logo_svg(sigle, nom, c1, c2)
+    return Response(
+        content=svg.encode(),
+        media_type="image/svg+xml",
+        headers={"Cache-Control": "public, max-age=86400"},
+    )
+
+# ─────────────────────────────────────────────────────────────────────────────
+# PHOTOS MINISTRES — Wikipedia REST API (autorisée, pas de hotlinking)
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Titres exacts des pages Wikipedia pour chaque ministre
+WIKI_PAGES: dict[str, str] = {
+    "macron":    "Emmanuel_Macron",
+    "lecornu":   "Sébastien_Lecornu",
+    "nunez":     "Laurent_Nuñez",
+    "vautrin":   "Catherine_Vautrin",
+    "farandou":  "Jean-Pierre_Farandou",
+    "barbut":    "Monique_Barbut",
+    "darmanin":  "Gérald_Darmanin",
+    "lescure":   "Roland_Lescure",
+    "papin":     "Serge_Papin",
+    "genevard":  "Annie_Genevard",
+    "geffray":   "Édouard_Geffray",
+    "barrot":    "Jean-Noël_Barrot",
+    "rist":      "Stéphanie_Rist",
+    "pegard":    "Catherine_Pégard",
+    "gatel":     "Françoise_Gatel",
+    "amiel":     "David_Amiel_(homme_politique)",
+    "baptiste":  "Philippe_Baptiste_(scientifique)",
+    "ferrari":   "Marina_Ferrari",
+    "tabarot":   "Philippe_Tabarot",
+    "jeanbrun":  "Vincent_Jeanbrun",
+    "berge":     "Aurore_Bergé",
+    "bregeon":   "Maud_Bregeon",
+    "haddad":    "Benjamin_Haddad",
+}
+
+# Cache en mémoire : photo_key → URL image
+_photo_cache: dict[str, str | None] = {}
+
+async def get_wiki_photo_url(page_title: str) -> str | None:
+    """Récupère l'URL de la photo principale d'une page Wikipedia via l'API REST."""
+    # Utilise l'API Summary de Wikipedia — autorisée, pas de blocage
+    encoded = page_title.replace(" ", "_")
+    api_url = f"https://fr.wikipedia.org/api/rest_v1/page/summary/{encoded}"
     try:
-        async with httpx.AsyncClient(timeout=10, follow_redirects=True) as client:
-            r = await client.get(url, headers=WP_HEADERS)
-            ct = r.headers.get("content-type", "image/png")
-            if r.status_code == 200 and "image" in ct and len(r.content) > 500:
-                return Response(content=r.content, media_type=ct,
-                    headers={"Cache-Control": "public, max-age=2592000"})
+        async with httpx.AsyncClient(timeout=8, follow_redirects=True) as client:
+            r = await client.get(api_url, headers={
+                "User-Agent": "LuminApp/1.0 (https://github.com/lumin; contact@lumin.fr)",
+                "Accept": "application/json",
+            })
+            if r.status_code == 200:
+                data = r.json()
+                # thumbnail.source donne l'URL directe redimensionnée
+                thumb = data.get("thumbnail", {}).get("source")
+                if thumb:
+                    # On demande une taille plus grande (300px)
+                    thumb = thumb.replace("/200px-", "/300px-").replace("/160px-", "/300px-")
+                    return thumb
     except Exception:
         pass
-    return JSONResponse(status_code=404, content={"detail": "Logo non disponible"})
+    # Fallback : API anglaise
+    try:
+        api_en = f"https://en.wikipedia.org/api/rest_v1/page/summary/{encoded}"
+        async with httpx.AsyncClient(timeout=8, follow_redirects=True) as client:
+            r = await client.get(api_en, headers={
+                "User-Agent": "LuminApp/1.0 (https://github.com/lumin; contact@lumin.fr)",
+            })
+            if r.status_code == 200:
+                data = r.json()
+                thumb = data.get("thumbnail", {}).get("source")
+                if thumb:
+                    return thumb.replace("/200px-", "/300px-")
+    except Exception:
+        pass
+    return None
 
 @app.get("/proxy/ministre/{key}")
 async def proxy_ministre_photo(key: str):
-    url = PHOTOS_MINISTRES.get(key.lower())
+    """Proxy photo ministre via Wikipedia REST API."""
+    key = key.lower()
+    page_title = WIKI_PAGES.get(key)
+    if not page_title:
+        return JSONResponse(status_code=404, content={"detail": "Ministre inconnu"})
+
+    # Vérifie le cache
+    if key not in _photo_cache:
+        _photo_cache[key] = await get_wiki_photo_url(page_title)
+
+    url = _photo_cache[key]
     if not url:
         return JSONResponse(status_code=404, content={"detail": "Photo non disponible"})
+
     try:
         async with httpx.AsyncClient(timeout=10, follow_redirects=True) as client:
-            r = await client.get(url, headers=WP_HEADERS)
+            r = await client.get(url, headers={
+                "User-Agent": "LuminApp/1.0 (https://github.com/lumin; contact@lumin.fr)",
+                "Referer": "https://fr.wikipedia.org/",
+            })
             ct = r.headers.get("content-type", "image/jpeg")
-            if r.status_code == 200 and "image" in ct and len(r.content) > 500:
+            if r.status_code == 200 and "image" in ct and len(r.content) > 1000:
                 return Response(content=r.content, media_type=ct,
-                    headers={"Cache-Control": "public, max-age=2592000"})
+                    headers={"Cache-Control": "public, max-age=604800"})
     except Exception:
         pass
+
+    # Si l'URL en cache a expiré, on force le refetch
+    _photo_cache[key] = await get_wiki_photo_url(page_title)
+    url = _photo_cache[key]
+    if url:
+        try:
+            async with httpx.AsyncClient(timeout=10, follow_redirects=True) as client:
+                r = await client.get(url, headers={
+                    "User-Agent": "LuminApp/1.0 (https://github.com/lumin; contact@lumin.fr)",
+                })
+                ct = r.headers.get("content-type", "image/jpeg")
+                if r.status_code == 200 and "image" in ct:
+                    return Response(content=r.content, media_type=ct,
+                        headers={"Cache-Control": "public, max-age=604800"})
+        except Exception:
+            pass
+
     return JSONResponse(status_code=404, content={"detail": "Photo non disponible"})
 
+# ─────────────────────────────────────────────────────────────────────────────
+# PROXY PORTRAIT DÉPUTÉ
+# ─────────────────────────────────────────────────────────────────────────────
 @app.get("/proxy/portrait/{depute_id}")
 async def proxy_portrait(depute_id: str, slug: str = Query(default=""), db: Session = Depends(get_db)):
     if not slug:
         depute = db.query(Depute).filter(Depute.id == depute_id).first()
         if depute and depute.slug:
             slug = depute.slug
+
     urls = []
     if slug:
         urls.append(f"https://www.nosdeputes.fr/depute/photo/{slug}")
-    numeric = depute_id.replace("PA","").replace("pa","")
+
+    numeric = depute_id.replace("PA", "").replace("pa", "")
     an_headers = {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/124.0 Safari/537.36",
         "Referer": "https://www.assemblee-nationale.fr/dyn/deputes",
@@ -410,37 +220,241 @@ async def proxy_portrait(depute_id: str, slug: str = Query(default=""), db: Sess
         f"https://www.assemblee-nationale.fr/dyn/static/atlas/assets/portraits/edito/{numeric}.jpg",
         f"https://www.assemblee-nationale.fr/static/atlas/assets/portraits/edito/2x/{numeric}.jpg",
     ]
+
     async with httpx.AsyncClient(timeout=10, follow_redirects=True) as client:
         for url in urls:
             try:
                 r = await client.get(url)
-                ct = r.headers.get("content-type","")
+                ct = r.headers.get("content-type", "")
                 if r.status_code == 200 and "image" in ct and len(r.content) > 2000:
                     return Response(content=r.content, media_type=ct,
-                        headers={"Cache-Control":"public, max-age=604800"})
+                        headers={"Cache-Control": "public, max-age=604800"})
             except Exception:
                 continue
         for url in an_urls:
             try:
                 r = await client.get(url, headers=an_headers)
-                ct = r.headers.get("content-type","")
+                ct = r.headers.get("content-type", "")
                 if r.status_code == 200 and "image" in ct and len(r.content) > 2000:
                     return Response(content=r.content, media_type=ct,
-                        headers={"Cache-Control":"public, max-age=604800"})
+                        headers={"Cache-Control": "public, max-age=604800"})
             except Exception:
                 continue
+
     return JSONResponse(status_code=404, content={"detail": "Portrait non disponible"})
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Routes
+# DONNÉES STATIQUES — Partis & Gouvernement
+# (inchangées par rapport au fichier précédent — copie intégrale)
 # ─────────────────────────────────────────────────────────────────────────────
+
+COULEURS = {
+    "RN": "#1A3C8C", "ENS": "#E85D00", "REN": "#E85D00", "NFP": "#8B0000",
+    "DR": "#0D3B8C", "LR": "#0D3B8C", "MODEM": "#E07B00", "HOR": "#1565C0",
+    "SOC": "#C2185B", "ECO": "#2E7D32", "LFI": "#B71C1C", "GDR": "#C62828",
+    "LIOT": "#6A1B9A", "NI": "#546E7A",
+}
+
+PARTIS_DATA = {
+    "RN": {
+        "nom": "Rassemblement National", "nom_court": "RN", "couleur": "#1A3C8C",
+        "description": "Premier groupe de l'Assemblée nationale avec 143 sièges. Fondé en 1972 sous le nom de Front National, il défend la priorité nationale et le contrôle de l'immigration. Marine Le Pen a été condamnée en appel, son inéligibilité de 5 ans confirmée début 2025.",
+        "valeurs": ["Priorité nationale", "Souveraineté", "Sécurité", "Identité française", "Protection sociale"],
+        "fondation": 1972, "orientation": "Droite nationaliste",
+        "president": "Marine Le Pen / Jordan Bardella",
+        "propositions_lois": [
+            "Référendum constitutionnel sur l'immigration",
+            "Suppression du droit du sol automatique",
+            "Retraite à 60 ans pour les carrières longues",
+            "Préférence nationale pour les aides sociales",
+            "Sortie du commandement intégré de l'OTAN",
+        ],
+        "actualites": [
+            "Inéligibilité de 5 ans de Marine Le Pen confirmée en appel (mars 2025)",
+            "Jordan Bardella prend la tête opérationnelle du RN",
+            "Le RN s'abstient sur la motion de censure pour éviter une dissolution",
+        ],
+    },
+    "ENS": {
+        "nom": "Ensemble pour la République", "nom_court": "ENS", "couleur": "#E85D00",
+        "description": "Groupe parlementaire issu de Renaissance (ex-LREM), parti d'Emmanuel Macron fondé en 2016. Gabriel Attal en est le président à l'Assemblée. Le groupe soutient le gouvernement Lecornu tout en maintenant une certaine distance.",
+        "valeurs": ["Progrès", "Europe", "Réforme de l'État", "Innovation"],
+        "fondation": 2016, "orientation": "Centre",
+        "president": "Gabriel Attal (groupe AN)",
+        "propositions_lois": [
+            "Loi de finances 2026 — réduction du déficit",
+            "Réforme de l'assurance-chômage",
+            "Loi industrie verte",
+            "France 2030 — investissements stratégiques",
+        ],
+        "actualites": [
+            "Gabriel Attal appelle Macron à 'partager le pouvoir' (fin 2025)",
+            "Ensemble soutient Lecornu sans participation directe au gouvernement",
+            "Le groupe perd des membres au profit d'Horizons",
+        ],
+    },
+    "NFP": {
+        "nom": "Nouveau Front Populaire", "nom_court": "NFP", "couleur": "#8B0000",
+        "description": "Coalition de gauche formée pour les législatives de 2024, rassemblant LFI, PS, Écologistes et PCF. A renversé le gouvernement Bayrou par un vote de confiance défavorable en septembre 2025.",
+        "valeurs": ["Justice sociale", "Planification écologique", "Services publics"],
+        "fondation": 2024, "orientation": "Gauche",
+        "president": "Coalition LFI / PS / Écolos / PCF",
+        "propositions_lois": [
+            "Abrogation de la réforme des retraites",
+            "Blocage des prix de première nécessité",
+            "Taxation des superprofits",
+            "Plan de bifurcation écologique (100 Mds€)",
+        ],
+        "actualites": [
+            "Le NFP a renversé Bayrou par vote de confiance (8 sept. 2025)",
+            "Le PS refuse de voter une motion de censure contre Lecornu",
+            "Tensions LFI/PS sur la stratégie parlementaire",
+        ],
+    },
+    "DR": {
+        "nom": "Droite Républicaine", "nom_court": "DR", "couleur": "#0D3B8C",
+        "description": "Groupe LR à l'Assemblée nationale rebaptisé 'Droite Républicaine'. Plusieurs membres ont rejoint le gouvernement Lecornu malgré l'opposition de Laurent Wauquiez, entraînant leur suspension du parti.",
+        "valeurs": ["Liberté", "Autorité", "Sécurité", "Économie de marché"],
+        "fondation": 2015, "orientation": "Droite",
+        "president": "Laurent Wauquiez",
+        "propositions_lois": [
+            "Immigration — quotas annuels votés par le Parlement",
+            "Justice — peines planchers généralisées",
+            "Relance du nucléaire — 6 nouveaux EPR",
+        ],
+        "actualites": [
+            "6 ministres LR suspendus du parti pour avoir rejoint Lecornu",
+            "Wauquiez maintient LR dans l'opposition",
+            "Le groupe rebaptisé 'Droite Républicaine' à l'AN",
+        ],
+    },
+    "MODEM": {
+        "nom": "Mouvement Démocrate", "nom_court": "MoDem", "couleur": "#E07B00",
+        "description": "Parti centriste fondé par François Bayrou en 2007. Bayrou a été Premier ministre de décembre 2024 à septembre 2025 avant d'être renversé. Jean-Noël Barrot (MoDem) est reconduit aux Affaires étrangères.",
+        "valeurs": ["Humanisme", "Europe fédérale", "Démocratie", "Éducation"],
+        "fondation": 2007, "orientation": "Centre",
+        "president": "François Bayrou",
+        "propositions_lois": [
+            "Réforme du scrutin proportionnel",
+            "Loi de programmation budgétaire pluriannuelle",
+        ],
+        "actualites": [
+            "Bayrou renversé par vote de confiance (8 sept. 2025)",
+            "Barrot (MoDem) reconduit aux Affaires étrangères sous Lecornu",
+        ],
+    },
+    "HOR": {
+        "nom": "Horizons", "nom_court": "HOR", "couleur": "#1565C0",
+        "description": "Parti centriste-libéral fondé par Édouard Philippe en 2021. Philippe, officiellement candidat à la présidentielle 2027, a appelé Macron à démissionner après le vote du budget.",
+        "valeurs": ["Pragmatisme", "Territoires", "Décentralisation"],
+        "fondation": 2021, "orientation": "Centre droit",
+        "president": "Édouard Philippe",
+        "propositions_lois": ["Acte III de la décentralisation", "Simplification administrative"],
+        "actualites": [
+            "Philippe appelle Macron à démissionner (déc. 2025)",
+            "Philippe officiellement candidat à la présidentielle 2027",
+            "Horizons renforce son implantation aux municipales 2026",
+        ],
+    },
+    "LFI": {
+        "nom": "La France Insoumise", "nom_court": "LFI", "couleur": "#B71C1C",
+        "description": "Mouvement de gauche radicale fondé par Mélenchon en 2016. Première force du NFP. Mélenchon a annoncé ne pas être candidat à la présidentielle 2027.",
+        "valeurs": ["VIe République", "Planification écologique", "Justice fiscale", "Paix"],
+        "fondation": 2016, "orientation": "Gauche radicale",
+        "president": "Jean-Luc Mélenchon",
+        "propositions_lois": [
+            "VIe République — Assemblée constituante",
+            "Retraite à 60 ans immédiate",
+            "100% renouvelables d'ici 2040",
+        ],
+        "actualites": [
+            "LFI a conduit le NFP à renverser Bayrou (sept. 2025)",
+            "Mélenchon ne se présente pas en 2027",
+            "Mathilde Panot reconduite à la tête du groupe",
+        ],
+    },
+    "SOC": {
+        "nom": "Socialistes et Apparentés", "nom_court": "PS", "couleur": "#C2185B",
+        "description": "Le PS se redresse dans le cadre du NFP. Il a refusé de voter la censure contre Lecornu en échange de la suspension de la réforme des retraites jusqu'en 2027.",
+        "valeurs": ["Justice sociale", "Solidarité", "Europe sociale", "Laïcité"],
+        "fondation": 1969, "orientation": "Gauche",
+        "president": "Olivier Faure",
+        "propositions_lois": ["Abrogation de la réforme des retraites", "Loi sur le logement social"],
+        "actualites": [
+            "Le PS obtient la suspension des retraites jusqu'en 2027",
+            "Le PS refuse de voter la censure contre Lecornu",
+            "Résultats positifs aux municipales 2026",
+        ],
+    },
+    "ECO": {
+        "nom": "Les Écologistes", "nom_court": "Écolos", "couleur": "#2E7D32",
+        "description": "Les Écologistes (ex-EELV), membres du NFP. S'opposent à la relance nucléaire de Lecornu.",
+        "valeurs": ["Transition écologique", "Féminisme", "Non-violence"],
+        "fondation": 2010, "orientation": "Gauche écologiste",
+        "president": "Marine Tondelier",
+        "propositions_lois": ["100% renouvelables d'ici 2035", "Interdiction des pesticides de synthèse"],
+        "actualites": [
+            "Opposition à la relance nucléaire du gouvernement",
+            "Marine Tondelier, figure montante en vue de 2027",
+        ],
+    },
+    "GDR": {
+        "nom": "Gauche Démocrate et Républicaine", "nom_court": "GDR", "couleur": "#C62828",
+        "description": "Groupe PCF et ultramarins. Membre du NFP, maintient ses distances avec LFI sur les questions géopolitiques.",
+        "valeurs": ["Services publics", "Paix", "Droits des travailleurs"],
+        "fondation": 1920, "orientation": "Gauche",
+        "president": "André Chassaigne",
+        "propositions_lois": ["Nationalisation des autoroutes", "Loi sur les logements vides"],
+        "actualites": ["Le PCF marque ses distances avec LFI sur le géopolitique"],
+    },
+    "LIOT": {
+        "nom": "Libertés, Indépendants, Outre-mer et Territoires", "nom_court": "LIOT", "couleur": "#6A1B9A",
+        "description": "Groupe transpartisan. S'est abstenu sur la motion de censure contre Lecornu en octobre 2025, lui permettant de survivre.",
+        "valeurs": ["Indépendance", "Territoires", "Outre-mer"],
+        "fondation": 2022, "orientation": "Centre / Divers",
+        "president": "Bertrand Pancher",
+        "propositions_lois": ["Autonomie des Outre-mer", "Financement des communes rurales"],
+        "actualites": ["LIOT s'abstient sur la censure Lecornu (oct. 2025)"],
+    },
+}
+
+GOUVERNEMENT = [
+    {"nom":"Macron",   "prenom":"Emmanuel",  "role":"Président de la République",                              "parti":"ENS",  "rang":0,  "photo_key":"macron",   "description":"Élu en 2017, réélu en 2022. Fondateur de Renaissance."},
+    {"nom":"Lecornu",  "prenom":"Sébastien", "role":"Premier ministre",                                        "parti":"ENS",  "rang":1,  "photo_key":"lecornu",  "description":"Nommé PM le 9 sept. 2025. Ancien ministre des Armées. Gouvernement remanié le 26 fév. 2026."},
+    {"nom":"Nuñez",    "prenom":"Laurent",   "role":"Ministre de l'Intérieur",                                 "parti":"ENS",  "rang":2,  "photo_key":"nunez",    "description":"Ancien préfet de police de Paris."},
+    {"nom":"Vautrin",  "prenom":"Catherine", "role":"Ministre des Armées et des Anciens combattants",          "parti":"HOR",  "rang":3,  "photo_key":"vautrin",  "description":"Ancienne présidente de la région Grand Est."},
+    {"nom":"Farandou", "prenom":"Jean-Pierre","role":"Ministre du Travail et des Solidarités",                 "parti":"ENS",  "rang":4,  "photo_key":"farandou", "description":"Ancien PDG de la SNCF (2019-2024)."},
+    {"nom":"Barbut",   "prenom":"Monique",   "role":"Ministre de la Transition écologique et de la Biodiversité","parti":"ENS","rang":5,  "photo_key":"barbut",   "description":"Ancienne directrice de la CNULCD (ONU)."},
+    {"nom":"Darmanin", "prenom":"Gérald",    "role":"Garde des Sceaux, ministre de la Justice",                "parti":"NI",   "rang":6,  "photo_key":"darmanin", "description":"A quitté Renaissance en oct. 2025. Ancien ministre de l'Intérieur."},
+    {"nom":"Lescure",  "prenom":"Roland",    "role":"Ministre de l'Économie et des Finances",                  "parti":"ENS",  "rang":7,  "photo_key":"lescure",  "description":"Ancien député Renaissance du Canada."},
+    {"nom":"Papin",    "prenom":"Serge",     "role":"Ministre des PME, Commerce et Pouvoir d'achat",           "parti":"NI",   "rang":8,  "photo_key":"papin",    "description":"Ancien PDG de Système U (2005-2017)."},
+    {"nom":"Genevard", "prenom":"Annie",     "role":"Ministre de l'Agriculture et de la Souveraineté alimentaire","parti":"LR","rang":9,  "photo_key":"genevard", "description":"Ancienne présidente du groupe LR à l'AN. Suspendue de LR."},
+    {"nom":"Geffray",  "prenom":"Édouard",   "role":"Ministre de l'Éducation nationale",                       "parti":"NI",   "rang":10, "photo_key":"geffray",  "description":"Ancien directeur général de l'enseignement scolaire."},
+    {"nom":"Barrot",   "prenom":"Jean-Noël", "role":"Ministre de l'Europe et des Affaires étrangères",         "parti":"MODEM","rang":11, "photo_key":"barrot",   "description":"Reconduit depuis le gouvernement Bayrou."},
+    {"nom":"Rist",     "prenom":"Stéphanie", "role":"Ministre de la Santé et des Familles",                    "parti":"ENS",  "rang":12, "photo_key":"rist",     "description":"Médecin, ancienne rapporteure du budget de la Sécu."},
+    {"nom":"Pégard",   "prenom":"Catherine", "role":"Ministre de la Culture",                                  "parti":"NI",   "rang":13, "photo_key":"pegard",   "description":"Ancienne présidente du château de Versailles. Remplace Dati (démissionnée 25 fév. 2026)."},
+    {"nom":"Gatel",    "prenom":"Françoise", "role":"Ministre de l'Aménagement du territoire et de la Décentralisation","parti":"NI","rang":14,"photo_key":"gatel","description":"Ancienne sénatrice UDI d'Ille-et-Vilaine."},
+    {"nom":"Amiel",    "prenom":"David",     "role":"Ministre de l'Action et des Comptes publics",             "parti":"ENS",  "rang":15, "photo_key":"amiel",    "description":"Fidèle de Macron. Promu le 26 fév. 2026, remplace Montchalin."},
+    {"nom":"Baptiste", "prenom":"Philippe",  "role":"Ministre de l'Enseignement supérieur et de la Recherche", "parti":"NI",   "rang":16, "photo_key":"baptiste",  "description":"Ancien directeur général du CNRS."},
+    {"nom":"Ferrari",  "prenom":"Marina",    "role":"Ministre des Sports et de la Jeunesse",                   "parti":"ENS",  "rang":17, "photo_key":"ferrari",  "description":"Ancienne députée ENS de Savoie."},
+    {"nom":"Tabarot",  "prenom":"Philippe",  "role":"Ministre des Transports",                                 "parti":"LR",   "rang":18, "photo_key":"tabarot",  "description":"Ancien sénateur LR des Alpes-Maritimes. Suspendu de LR."},
+    {"nom":"Jeanbrun", "prenom":"Vincent",   "role":"Ministre de la Ville et du Logement",                     "parti":"LR",   "rang":19, "photo_key":"jeanbrun", "description":"Maire de L'Haÿ-les-Roses. Suspendu de LR."},
+    {"nom":"Bergé",    "prenom":"Aurore",    "role":"Ministre déléguée — Égalité femmes-hommes",               "parti":"ENS",  "rang":20, "photo_key":"berge",    "description":"Ancienne présidente du groupe Renaissance à l'AN."},
+    {"nom":"Bregeon",  "prenom":"Maud",      "role":"Porte-parole du Gouvernement · Énergie",                  "parti":"ENS",  "rang":21, "photo_key":"bregeon",  "description":"Porte-parole. Également chargée de l'Énergie auprès de Lescure."},
+    {"nom":"Haddad",   "prenom":"Benjamin",  "role":"Ministre délégué — Europe",                               "parti":"ENS",  "rang":22, "photo_key":"haddad",   "description":"Chargé de l'Europe auprès de Barrot."},
+]
+
+# ─────────────────────────────────────────────────────────────────────────────
+# ROUTES
+# ─────────────────────────────────────────────────────────────────────────────
+
 def _fmt_depute(d: Depute) -> dict:
-    slug_param = f"?slug={d.slug}" if d.slug else ""
+    slug_param = f"?slug={d.slug}" if getattr(d, "slug", None) else ""
     return {
         "id": d.id, "prenom": d.prenom, "nom": d.nom,
-        "groupe": d.groupe, "circonscription": d.circonscription, "slug": d.slug,
+        "groupe": d.groupe, "circonscription": d.circonscription,
+        "slug": getattr(d, "slug", None),
         "photo_url": f"http://localhost:8000/proxy/portrait/{d.id}{slug_param}",
-        "url_nosdeputes": getattr(d, "url_nosdeputes", None),
     }
 
 @app.get("/deputes")
@@ -462,7 +476,7 @@ def get_deputes(db: Session = Depends(get_db),
 def get_depute(depute_id: str, db: Session = Depends(get_db)):
     d = db.query(Depute).filter(Depute.id == depute_id).first()
     if not d:
-        return JSONResponse(status_code=404, content={"detail":"Introuvable"})
+        return JSONResponse(status_code=404, content={"detail": "Introuvable"})
     return _fmt_depute(d)
 
 @app.get("/partis")
@@ -472,33 +486,31 @@ def get_partis(db: Session = Depends(get_db)):
     for code, data in PARTIS_DATA.items():
         nb = counts.get(code, 0)
         if code == "NFP":
-            nb = counts.get("LFI",0)+counts.get("SOC",0)+counts.get("ECO",0)+counts.get("GDR",0)
+            nb = sum(counts.get(g, 0) for g in ["LFI","SOC","ECO","GDR"])
         elif code == "DR":
-            nb = counts.get("LR",0)+counts.get("DR",0)
-        result.append({"id":code,"slug":code.lower(),**data,"nb_sieges":nb})
+            nb = sum(counts.get(g, 0) for g in ["LR","DR"])
+        result.append({"id": code, "slug": code.lower(), **data, "nb_sieges": nb})
     return sorted(result, key=lambda x: x["nb_sieges"], reverse=True)
 
 @app.get("/partis/{slug}")
 def get_parti(slug: str, db: Session = Depends(get_db)):
     code = slug.upper()
-    # Alias : "lr" → "DR" (Droite Républicaine), "ens"→"ENS"
-    aliases = {"LR":"DR","RENAISSANCE":"ENS","RE":"ENS"}
+    aliases = {"LR": "DR", "RENAISSANCE": "ENS", "RE": "ENS"}
     code = aliases.get(code, code)
     if code not in PARTIS_DATA:
-        return JSONResponse(status_code=404, content={"detail":"Parti introuvable"})
+        return JSONResponse(status_code=404, content={"detail": "Parti introuvable"})
     data = PARTIS_DATA[code]
-    codes_groupe = [code]
-    if code == "NFP": codes_groupe = ["LFI","SOC","ECO","GDR"]
-    if code == "DR":  codes_groupe = ["LR","DR"]
+    codes_groupe = {"NFP": ["LFI","SOC","ECO","GDR"], "DR": ["LR","DR"]}.get(code, [code])
     deputes = db.query(Depute).filter(Depute.groupe.in_(codes_groupe)).order_by(Depute.nom).all()
-    return {"id":code,"slug":slug,**data,"nb_sieges":len(deputes),"deputes":[_fmt_depute(d) for d in deputes]}
+    return {"id": code, "slug": slug, **data, "nb_sieges": len(deputes),
+            "deputes": [_fmt_depute(d) for d in deputes]}
 
 @app.get("/gouvernement")
 def get_gouvernement():
     return [
         {**m,
-         "couleur": COULEURS.get(m["parti"],"#607D8B"),
-         "initiales": (m["prenom"][0] if m["prenom"] else "")+(m["nom"][0] if m["nom"] else ""),
+         "couleur": COULEURS.get(m["parti"], "#607D8B"),
+         "initiales": (m["prenom"][0] if m["prenom"] else "") + (m["nom"][0] if m["nom"] else ""),
          "photo_url": f"http://localhost:8000/proxy/ministre/{m['photo_key']}"}
         for m in GOUVERNEMENT
     ]
@@ -511,5 +523,5 @@ def get_stats(db: Session = Depends(get_db)):
     return {
         "total_deputes": total,
         "nb_groupes": len(by_groupe),
-        "by_groupe": [{"groupe":g,"count":c,"couleur":COULEURS.get(g,"#888")} for g,c in by_groupe],
+        "by_groupe": [{"groupe": g, "count": c, "couleur": COULEURS.get(g, "#888")} for g, c in by_groupe],
     }
